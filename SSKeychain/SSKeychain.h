@@ -50,7 +50,7 @@ extern NSString *const kSSKeychainLastModifiedKey;
 extern NSString *const kSSKeychainWhereKey;
 
 /**
- Simple wrapper for accessing accounts, getting passwords, setting passwords, and deleting passwords using the system
+ Simple wrapper for accessing accounts, getting loginInfo, setting loginInfo, and deleting loginInfo using the system
  Keychain on Mac OS X and iOS.
 
  This was originally inspired by EMKeychain and SDKeychain (both of which are now gone). Thanks to the authors.
@@ -61,46 +61,46 @@ extern NSString *const kSSKeychainWhereKey;
 #pragma mark - Classic methods
 
 /**
- Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't have a
- password for the given parameters.
+ Returns a string containing the loginInfo for a given account and service, or `nil` if the Keychain doesn't have a
+ loginInfo for the given parameters.
 
- @param serviceName The service for which to return the corresponding password.
+ @param serviceName The service for which to return the corresponding loginInfo.
 
- @param account The account for which to return the corresponding password.
+ @param account The account for which to return the corresponding loginInfo.
 
- @return Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't
- have a password for the given parameters.
+ @return Returns a string containing the loginInfo for a given account and service, or `nil` if the Keychain doesn't
+ have a loginInfo for the given parameters.
  */
-+ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account;
-+ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
++ (NSDictionary *)loginInfoForService:(NSString *)serviceName account:(NSString *)account;
++ (NSDictionary *)loginInfoForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 
 
 /**
- Deletes a password from the Keychain.
+ Deletes a loginInfo from the Keychain.
 
- @param serviceName The service for which to delete the corresponding password.
+ @param serviceName The service for which to delete the corresponding loginInfo.
 
- @param account The account for which to delete the corresponding password.
+ @param account The account for which to delete the corresponding loginInfo.
 
  @return Returns `YES` on success, or `NO` on failure.
  */
-+ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account;
-+ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
++ (BOOL)deleteloginInfoForService:(NSString *)serviceName account:(NSString *)account;
++ (BOOL)deleteloginInfoForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 
 
 /**
- Sets a password in the Keychain.
+ Sets a loginInfo in the Keychain.
 
- @param password The password to store in the Keychain.
+ @param loginInfo The loginInfo to store in the Keychain.
 
- @param serviceName The service for which to set the corresponding password.
+ @param serviceName The service for which to set the corresponding loginInfo.
 
- @param account The account for which to set the corresponding password.
+ @param account The account for which to set the corresponding loginInfo.
 
  @return Returns `YES` on success, or `NO` on failure.
  */
-+ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account;
-+ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
++ (BOOL)setloginInfo:(NSDictionary *)loginInfo forService:(NSString *)serviceName account:(NSString *)account;
++ (BOOL)setloginInfo:(NSDictionary *)loginInfo forService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 
 
 /**
@@ -134,7 +134,7 @@ extern NSString *const kSSKeychainWhereKey;
 
 #if __IPHONE_4_0 && TARGET_OS_IPHONE
 /**
- Returns the accessibility type for all future passwords saved to the Keychain.
+ Returns the accessibility type for all future loginInfo saved to the Keychain.
 
  @return Returns the accessibility type.
 
@@ -146,7 +146,7 @@ extern NSString *const kSSKeychainWhereKey;
 + (CFTypeRef)accessibilityType;
 
 /**
- Sets the accessibility type for all future passwords saved to the Keychain.
+ Sets the accessibility type for all future loginInfo saved to the Keychain.
 
  @param accessibilityType One of the "Keychain Item Accessibility Constants"
  used for determining when a keychain item should be readable.

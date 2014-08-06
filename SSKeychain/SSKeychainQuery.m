@@ -14,7 +14,7 @@
 @synthesize account = _account;
 @synthesize service = _service;
 @synthesize label = _label;
-@synthesize passwordData = _passwordData;
+@synthesize loginInfoData = _loginInfoData;
 
 #if __IPHONE_3_0 && TARGET_OS_IPHONE
 @synthesize accessGroup = _accessGroup;
@@ -28,7 +28,7 @@
 
 - (BOOL)save:(NSError *__autoreleasing *)error {
 	OSStatus status = SSKeychainErrorBadArguments;
-	if (!self.service || !self.account || !self.passwordData) {
+	if (!self.service || !self.account || !self.loginInfoData) {
 		if (error) {
 			*error = [[self class] errorWithCode:status];
 		}
@@ -38,7 +38,7 @@
 	[self deleteItem:nil];
 
 	NSMutableDictionary *query = [self query];
-	[query setObject:self.passwordData forKey:(__bridge id)kSecValueData];
+	[query setObject:self.loginInfoData forKey:(__bridge id)kSecValueData];
 	if (self.label) {
 		[query setObject:self.label forKey:(__bridge id)kSecAttrLabel];
 	}
@@ -125,34 +125,34 @@
 		return NO;
 	}
 
-	self.passwordData = (__bridge_transfer NSData *)result;
+	self.loginInfoData = (__bridge_transfer NSData *)result;
 	return YES;
 }
 
 
 #pragma mark - Accessors
 
-- (void)setPasswordObject:(id<NSCoding>)object {
-	self.passwordData = [NSKeyedArchiver archivedDataWithRootObject:object];
+- (void)setLoginInfoObject:(id<NSCoding>)object {
+	self.loginInfoData = [NSKeyedArchiver archivedDataWithRootObject:object];
 }
 
 
-- (id<NSCoding>)passwordObject {
-	if ([self.passwordData length]) {
-		return [NSKeyedUnarchiver unarchiveObjectWithData:self.passwordData];
+- (id<NSCoding>)loginInfoObject {
+	if ([self.loginInfoData length]) {
+		return [NSKeyedUnarchiver unarchiveObjectWithData:self.loginInfoData];
 	}
 	return nil;
 }
 
 
-- (void)setPassword:(NSString *)password {
-	self.passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
+- (void)setLoginInfo:(NSDictionary *)loginInfo {
+	self.loginInfoData = [NSKeyedArchiver archivedDataWithRootObject:loginInfo];
 }
 
 
-- (NSString *)password {
-	if ([self.passwordData length]) {
-		return [[NSString alloc] initWithData:self.passwordData encoding:NSUTF8StringEncoding];
+- (NSDictionary *)loginInfo {
+	if ([self.loginInfoData length]) {
+		return [NSKeyedUnarchiver unarchiveObjectWithData:self.loginInfoData];
 	}
 	return nil;
 }

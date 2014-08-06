@@ -46,20 +46,20 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
 @property (nonatomic) SSKeychainQuerySynchronizationMode synchronizationMode;
 #endif
 
-/** Root storage for password information */
-@property (nonatomic, copy) NSData *passwordData;
+/** Root storage for loginInfo information */
+@property (nonatomic, copy) NSData *loginInfoData;
 
 /**
  This property automatically transitions between an object and the value of
- `passwordData` using NSKeyedArchiver and NSKeyedUnarchiver.
+ `loginInfoData` using NSKeyedArchiver and NSKeyedUnarchiver.
  */
-@property (nonatomic, copy) id<NSCoding> passwordObject;
+@property (nonatomic, copy) id<NSCoding> loginInfoObject;
 
 /**
- Convenience accessor for setting and getting a password string. Passes through
- to `passwordData` using UTF-8 string encoding.
+ Convenience accessor for setting and getting a loginInfo dictionary. Passes through
+ to `loginInfoData` using UTF-8 string encoding.
  */
-@property (nonatomic, copy) NSString *password;
+@property (nonatomic, copy) NSDictionary *loginInfo;
 
 
 ///------------------------
@@ -92,7 +92,7 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
 
 /**
  Fetch all keychain items that match the given account, service, and access
- group. The values of `password` and `passwordData` are ignored when fetching.
+ group. The values of `loginInfo` and `loginInfoData` are ignored when fetching.
 
  @param error Populated should an error occur.
 
@@ -104,8 +104,8 @@ typedef NS_ENUM(NSUInteger, SSKeychainQuerySynchronizationMode) {
 
 /**
  Fetch the keychain item that matches the given account, service, and access
- group. The `password` and `passwordData` properties will be populated unless
- an error occurs. The values of `password` and `passwordData` are ignored when
+ group. The `loginInfo` and `loginInfoData` properties will be populated unless
+ an error occurs. The values of `loginInfo` and `loginInfoData` are ignored when
  fetching.
 
  @param error Populated should an error occur.

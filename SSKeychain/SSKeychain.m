@@ -23,26 +23,26 @@ NSString *const kSSKeychainWhereKey = @"svce";
 
 @implementation SSKeychain
 
-+ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account {
-	return [self passwordForService:serviceName account:account error:nil];
++ (NSDictionary *)loginInfoForService:(NSString *)serviceName account:(NSString *)account {
+	return [self loginInfoForService:serviceName account:account error:nil];
 }
 
 
-+ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
++ (NSDictionary *)loginInfoForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
 	[query fetch:error];
-	return query.password;
+	return query.loginInfo;
 }
 
 
-+ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account {
-	return [self deletePasswordForService:serviceName account:account error:nil];
++ (BOOL)deleteloginInfoForService:(NSString *)serviceName account:(NSString *)account {
+	return [self deleteloginInfoForService:serviceName account:account error:nil];
 }
 
 
-+ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
++ (BOOL)deleteloginInfoForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
@@ -50,16 +50,16 @@ NSString *const kSSKeychainWhereKey = @"svce";
 }
 
 
-+ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account {
-	return [self setPassword:password forService:serviceName account:account error:nil];
++ (BOOL)setloginInfo:(NSDictionary *)loginInfo forService:(NSString *)serviceName account:(NSString *)account {
+	return [self setloginInfo:loginInfo forService:serviceName account:account error:nil];
 }
 
 
-+ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
++ (BOOL)setloginInfo:(NSDictionary *)loginInfo forService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *)error {
 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
 	query.service = serviceName;
 	query.account = account;
-	query.password = password;
+	query.loginInfo = loginInfo;
 	return [query save:error];
 }
 
